@@ -32,10 +32,10 @@ func main() {
 		}).WithSpec(corev1.PodSpec().
 		WithRestartPolicy(core.RestartPolicyAlways).
 		WithContainers(corev1.Container().
-			WithImage("ubuntu:20.04").
+			WithImage("ubuntu:18.04").
 			WithImagePullPolicy(core.PullIfNotPresent).
 			WithName("busybox").
-			WithCommand("sleep", "300").
+			WithCommand("sleep", "3600").
 			WithResources(corev1.ResourceRequirements().
 				WithLimits(core.ResourceList{
 					core.ResourceCPU:    resource.MustParse("500m"),
@@ -43,7 +43,7 @@ func main() {
 				}))))
 
 	p2, err := client.CoreV1().Pods("default").Apply(context.Background(), p, metav1.ApplyOptions{
-		Force:        false,
+		Force:        true,
 		FieldManager: "tamal",
 	})
 	if err != nil {
